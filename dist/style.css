@@ -1,0 +1,19 @@
+#content {
+  display: flex;
+  justify-content: center;
+}
+
+.battle-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  margin: 5rem;
+}
+
+.cell {
+  border: 1px solid black;
+}
+
+.ship {
+  background-color: blue;
+}
