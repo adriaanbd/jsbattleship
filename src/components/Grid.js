@@ -21,36 +21,41 @@ const Grid = (positions) => {
     parent.appendChild(root);
   };
 
-  const placeShips = (shipsArray) => {
-    shipsArray.forEach((ship) => {
-      const shipPosition = ship.position;
-      shipPosition.forEach((pos) => {
-        const cell = document.getElementById(`${pos}`);
-        cell.classList.add('ship');
-        cell.draggable = true;
-      });
+  const addShip = (ship) => {
+    ship.position.forEach((id) => {
+      const cell = document.getElementById(`${id}`);
+      cell.classList.add('ship');
+      cell.draggable = true;
+      positions[id] = ship; // add to state
     });
   };
 
-  const removeShipFromUI = (position) => {
-    position.forEach((id) => {
+  const placeShips = (shipsArray) => {
+    shipsArray.forEach((ship) => {
+      addShip(ship);
+    });
+  };
+
+  const removeShip = (positionArray) => {
+    positionArray.forEach((id) => {
       const cell = document.getElementById(`${id}`);
       cell.removeAttribute('draggable');
       cell.classList.remove('ship');
+      delete positions[id]; // remove from state
     });
   };
 
   const dragStart = (event) => {
     event.dataTransfer.setData('text/plain', event.target.id);
-    // console.log('dragstart');
   };
 
   const dragDrop = (event) => {
     const { dataTransfer, target } = event;
-    const prevId = dataTransfer.getData('text');
-    const ship = positions[prevId];
-    removeShipFromUI(ship.position);
-    ship.navigate(prevId, target.id);
+    const prevID = dataTransfer.getData('text');
+    const ship = positions[prevID];
+    removeShip(ship.position);
+    ship.navigate(prevID, target.id);
+    addShip(ship);
   };
 
   const dragOver = (event) => {

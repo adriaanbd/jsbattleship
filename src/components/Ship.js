@@ -6,7 +6,6 @@ class Ship {
   }
 
   navigate(fromID, toID) {
-    console.log(fromID, toID);
     const diff = Math.abs(fromID - toID);
     const prevPosition = this.position;
     if (fromID > toID) {
