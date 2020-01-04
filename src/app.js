@@ -1,5 +1,5 @@
 import Grid from './components/Grid';
-import Ship from './factories/Ship';
+import Ship from './components/Ship';
 // import Gameboard from './factories/board';
 // const board = Gameboard();
 
