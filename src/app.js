@@ -1,8 +1,17 @@
-import Grid from './interface/grid';
+import Grid from './components/Grid';
+import Ship from './factories/Ship';
+// import Gameboard from './factories/board';
+// const board = Gameboard();
 
-const grid = Grid();
+const destroyer = new Ship();
+const positions = { 3: destroyer, 6: destroyer };
+const grid = Grid(positions);
 
-document.addEventListener('DOMContentLoaded', () => {
+const startApp = () => {
   const content = document.querySelector('#content');
-  grid.makeGrid(100, content);
-});
+  grid.makeGrid(9, content);
+  grid.placeShips([destroyer]);
+  grid.setListeners(content);
+};
+
+document.addEventListener('DOMContentLoaded', () => startApp());
