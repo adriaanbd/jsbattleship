@@ -3,14 +3,17 @@ import Ship from './components/Ship';
 // import Gameboard from './factories/board';
 // const board = Gameboard();
 
-const destroyer = new Ship();
-const positions = { 3: destroyer, 6: destroyer };
-const grid = Grid(positions);
+const destroyer1 = new Ship();
+const destroyer2 = new Ship();
+const ships = [destroyer1, destroyer2];
+destroyer1.location = [3, 6];
+destroyer2.location = [5, 8];
+const grid = Grid(ships);
 
 const startApp = () => {
   const content = document.querySelector('#content');
   grid.makeGrid(9, content);
-  grid.placeShips([destroyer]);
+  grid.placeShips([destroyer1, destroyer2]);
   grid.setListeners(content);
 };
 

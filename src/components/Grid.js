@@ -1,31 +1,37 @@
 import Cells from './Cells';
 
-const Grid = (positions) => {
+const Grid = (ships) => {
+  let rootNode;
+  let cellsArr;
+  const positions = {};
+
   const makeGrid = (size, parent, classStr = 'battle-grid') => {
-    const root = Cells(size);
-    root.className = classStr;
-    parent.appendChild(root);
+    rootNode = Cells(size);
+    cellsArr = Array.from(rootNode.children);
+    rootNode.className = classStr;
+    parent.appendChild(rootNode);
   };
 
   const addShip = (ship) => {
     ship.position.forEach((id) => {
-      const cell = document.getElementById(`${id}`);
+      const cell = cellsArr[id];
       cell.classList.add('ship');
       cell.draggable = true;
       positions[id] = ship; // add to state
     });
   };
 
-  const placeShips = (shipsArray) => {
-    shipsArray.forEach((ship) => {
+  const placeShips = () => {
+    ships.forEach((ship) => {
       addShip(ship);
     });
   };
 
   const removeShip = (positionArray) => {
     positionArray.forEach((id) => {
-      const cell = document.getElementById(`${id}`);
+      const cell = cellsArr[id];
       cell.removeAttribute('draggable');
+      cell.removeAttribute('style');
       cell.classList.remove('ship');
       delete positions[id]; // remove from state
     });
@@ -41,7 +47,13 @@ const Grid = (positions) => {
     const ship = positions[prevID];
     const position = ship.position;
     ship.navigate(prevID, target.id); // change ship.position
-    const isWithinValidRange = ship.position.every((id) => id < 9 && id >= 0);
+    const isWithinValidRange = ship.position.every((id) => {
+      const inGrid = id < 9 && id >= 0;
+      const isShip = positions[id];
+      const myShip = positions[id] === ship;
+      if (inGrid && isShip) { return myShip; }
+      return inGrid && !isShip;
+    });
     if (isWithinValidRange) {
       removeShip(position);
       addShip(ship);
