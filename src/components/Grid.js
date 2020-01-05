@@ -1,22 +1,8 @@
+import Cells from './Cells';
+
 const Grid = (positions) => {
-  const cell = (classStr, idx) => {
-    const cellDiv = document.createElement('div');
-    cellDiv.className = classStr;
-    cellDiv.id = `${idx}`;
-    return cellDiv;
-  };
-
-  const cells = (size, classStr = 'cell') => {
-    const grid = document.createElement('div');
-    for (let i = 0; i < size; i += 1) {
-      const cellDiv = cell(classStr, i);
-      grid.appendChild(cellDiv);
-    }
-    return grid;
-  };
-
   const makeGrid = (size, parent, classStr = 'battle-grid') => {
-    const root = cells(size);
+    const root = Cells(size);
     root.className = classStr;
     parent.appendChild(root);
   };
@@ -53,9 +39,15 @@ const Grid = (positions) => {
     const { dataTransfer, target } = event;
     const prevID = dataTransfer.getData('text');
     const ship = positions[prevID];
-    removeShip(ship.position);
-    ship.navigate(prevID, target.id);
-    addShip(ship);
+    const position = ship.position;
+    ship.navigate(prevID, target.id); // change ship.position
+    const isWithinValidRange = ship.position.every((id) => id < 9 && id >= 0);
+    if (isWithinValidRange) {
+      removeShip(position);
+      addShip(ship);
+    } else {
+      ship.position = position;
+    }
   };
 
   const dragOver = (event) => {
