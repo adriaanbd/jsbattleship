@@ -3,9 +3,11 @@ import Cells from './Cells';
 const Grid = (ships) => {
   let rootNode;
   let cellsArr;
+  // let board;
   const positions = {};
 
   const makeGrid = (size, parent, classStr = 'battle-grid') => {
+    // board = new Array(size);
     rootNode = Cells(size);
     cellsArr = Array.from(rootNode.children);
     rootNode.className = classStr;
@@ -48,7 +50,7 @@ const Grid = (ships) => {
     const position = ship.position;
     ship.navigate(prevID, target.id); // change ship.position
     const isWithinValidRange = ship.position.every((id) => {
-      const inGrid = id < 9 && id >= 0;
+      const inGrid = id < 100 && id >= 0;
       const isShip = positions[id];
       const myShip = positions[id] === ship;
       if (inGrid && isShip) { return myShip; }

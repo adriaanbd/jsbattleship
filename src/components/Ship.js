@@ -24,7 +24,7 @@ class Ship {
   }
 
   isValidPos(pos) {
-    const valid = pos < 9 && pos > 0;
+    const valid = pos < 100 && pos > 0;
     return valid;
   }
 
