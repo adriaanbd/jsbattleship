@@ -1,63 +1,89 @@
 import Cells from '../components/Cells';
+import Ship from './Ship';
+import Options from '../helpers/Scout';
 
-function Board(ships) {
-  let rootNode;
-  let cellsArr;
-  const positions = {};
+class Board {
+  constructor(size = 100) {
+    this.grid = Cells(size);
+    this.cells = Array.from(this.grid.children);
+    this.ships = [];
+    this.positions = {};
+  }
 
-  const getPositions = () => positions;
-
-  const makeGrid = (size, parent, classStr = 'battle-grid') => {
-    // board = new Array(size);
-    rootNode = Cells(size);
-    cellsArr = Array.from(rootNode.children);
-    rootNode.className = classStr;
-    parent.appendChild(rootNode);
-  };
-
-  const receiveAttack = (pos) => {
-    const ship = positions[pos];
+  receiveAttack(pos) {
+    const ship = this.positions[pos];
     if (ship) {
       ship.hit();
       return true;
     }
     return false;
-  };
+  }
 
-  const addShip = (ship) => {
+  createShips(sizes = [5, 4, 3, 3, 2]) {
+    for (let i = 0; i < sizes.length; i += 1) {
+      const ship = new Ship(sizes[i]);
+      this.ships.push(ship);
+    }
+  }
+
+  getValidOptions(options) {
+    const validOptions = [];
+    for (let i = 0; i < options.length; i += 1) {
+      const position = options[i];
+      const isValid = position.every((point) => !this.positions[point]);
+      if (!isValid) {continue}
+      validOptions.push(position);
+    }
+    console.log(validOptions);
+    return validOptions;
+  }
+
+  setPosition(ship) {
+    let point = Math.floor(Math.random() * 100);
+    while (this.positions[point]) {
+      point = Math.floor(Math.random() * 100);
+    }
+    const options = Options(ship.length, point);
+    const validOptions = this.getValidOptions(options);
+    const optionIdx = Math.floor(Math.random() * validOptions.length);
+    const validShipLocation = validOptions[optionIdx];
+    ship.position = validShipLocation;
+  }
+
+  addShip(ship) {
+    if (!ship.position) this.setPosition(ship);
     ship.position.forEach((id) => {
-      const cell = cellsArr[id];
+      const cell = this.cells[id];
       cell.classList.add('ship');
       cell.draggable = true;
-      positions[id] = ship; // add to state
+      this.positions[id] = ship; // add to state
     });
-  };
+  }
 
-  const placeShips = () => {
-    ships.forEach((ship) => {
-      addShip(ship);
+  placeShips() {
+    if (this.ships.length === 0) this.createShips();
+    this.ships.forEach((ship) => {
+      this.addShip(ship);
     });
-  };
+  }
 
-  const removeShip = (ship) => {
+  removeShip(ship) {
     const { position } = ship;
     position.forEach((id) => {
-      const cell = cellsArr[id];
+      const cell = this.cells[id];
       cell.removeAttribute('draggable');
       cell.removeAttribute('style');
       cell.classList.remove('ship');
-      delete positions[id]; // remove from state
+      delete this.positions[id]; // remove from state
     });
-  };
+  }
 
-  return {
-    addShip,
-    placeShips,
-    removeShip,
-    getPositions,
-    receiveAttack,
-    makeGrid,
-  };
+  setUp(root, gridName) {
+    root.appendChild(this.grid);
+    this.grid.className = gridName;
+    this.parent = root;
+    this.placeShips();
+  }
 }
 
 export default Board;
