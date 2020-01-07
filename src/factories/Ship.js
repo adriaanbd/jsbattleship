@@ -5,14 +5,6 @@ class Ship {
     this.lives = length;
   }
 
-  get location() {
-    return this.position;
-  }
-
-  set location(arr) {
-    this.position = arr;
-  }
-
   navigate(fromID, toID) {
     const diff = Math.abs(fromID - toID);
     const prevPosition = this.position;
