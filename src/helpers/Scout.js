@@ -1,10 +1,4 @@
 function Options(size, point) {
-  const corners = [0, 9, 90, 99];
-  const isRight = (point + 1) % 10 === 0;
-  const isLeft = point % 10 === 0;
-  const isBot = point > 90 && point < 99;
-  const isTop = point > 0 && point < 9;
-
   const inRange = (num) => num > 0 && num < 100;
 
   function getPositions(point, counters) {
@@ -24,26 +18,24 @@ function Options(size, point) {
   }
 
   function setCounters(point) {
-    let counters;
-    if (corners.includes(point)) {
-      if (point === 0) {
-        counters = [1, 10];
-      } else if (point === 9) {
-        counters = [-1, 10];
-      } else if (point === 90) {
-        counters = [-10, 1];
-      } else if (point === 99) {
-        counters = [-10, -1];
-      }
-    } else if (isLeft || isRight) {
-      if (isLeft) counters = [1, 10, -10];
-      if (isRight) counters = [-10, -1, 10];
-    } else if (isTop) {
-      counters = [-1, 1, 10];
-    } else if (isBot) {
-      counters = [-10, -1, 1];
+    const y = Math.floor(point / 10);
+    const x = (point % 10);
+    const counters = [];
+    // y range
+    if (y >= 5) {
+      counters.push(-10);
+      if (y + size <= 10) counters.push(10);
     } else {
-      counters = [-10, -1, 1, 10];
+      counters.push(10);
+      if (y + 1 + size <= 10) counters.push(-10);
+    }
+    // x range
+    if (x >= 5) {
+      counters.push(-1);
+      if (x - size >= 0) counters.push(1);
+    } else {
+      counters.push(1);
+      if (x + size <= 10) counters.push(-1);
     }
     return counters;
   }
