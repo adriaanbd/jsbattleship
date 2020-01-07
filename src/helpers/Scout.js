@@ -1,7 +1,7 @@
-function Options(size) {
-  const point = Math.floor(Math.random() * 100);
+function Options(size, point) {
   const corners = [0, 9, 90, 99];
-  const isEdge = (point + 1) % 10 === 0;
+  const isRight = (point + 1) % 10 === 0;
+  const isLeft = point % 10 === 0;
   const isBot = point > 90 && point < 99;
   const isTop = point > 0 && point < 9;
 
@@ -35,8 +35,9 @@ function Options(size) {
       } else if (point === 99) {
         counters = [-10, -1];
       }
-    } else if (isEdge) {
-      counters = [-10, -1, 10];
+    } else if (isLeft || isRight) {
+      if (isLeft) counters = [1, 10, -10];
+      if (isRight) counters = [-10, -1, 10];
     } else if (isTop) {
       counters = [-1, 1, 10];
     } else if (isBot) {
