@@ -35,7 +35,7 @@ function Options(size, point) {
       if (x + size <= 10) counters.push(1);
     } else {
       counters.push(1);
-      if (x - (size - 1) <= 0) counters.push(-1);
+      if (x - (size - 1) >= 0) counters.push(-1);
     }
     return counters;
   }
