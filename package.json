@@ -23,7 +23,7 @@
     "build": "webpack -p",
     "dev": "webpack --mode development",
     "watch": "webpack --progress --watch --mode development",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",
