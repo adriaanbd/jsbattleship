@@ -3,11 +3,12 @@ import Ship from './Ship';
 import Options from '../helpers/Scout';
 
 class Board {
-  constructor(size = 100) {
+  constructor(size = 100, positions = {}) {
     this.grid = Cells(size);
     this.cells = Array.from(this.grid.children);
     this.ships = [];
-    this.positions = {};
+    this.positions = positions;
+    this.size = size;
   }
 
   receiveAttack(pos) {
@@ -31,17 +32,24 @@ class Board {
     for (let i = 0; i < options.length; i += 1) {
       const position = options[i];
       const isValid = position.every((point) => !this.positions[point]);
-      if (!isValid) {continue}
+      if (!isValid) continue
       validOptions.push(position);
     }
     return validOptions;
   }
 
-  setPosition(shipLength) {
-    let point = Math.floor(Math.random() * 100);
-    while (this.positions[point]) {
-      point = Math.floor(Math.random() * 100);
+  getRandomIndex(containerLength) {
+    let point;
+    let position;
+    while (true) {
+      point = Math.floor(Math.random() * containerLength);
+      position = this.positions[point];
+      if (!position) return point;
     }
+  }
+
+  setPosition(shipLength, point = null) {
+    if (!point) point = this.getRandomIndex(this.size);
     const options = Options(shipLength, point);
     const validOptions = this.getValidOptions(options);
     const optionIdx = Math.floor(Math.random() * validOptions.length);
@@ -50,7 +58,7 @@ class Board {
   }
 
   addShip(ship) {
-    const hasPosition = ship.position.length > 0;
+    const hasPosition = ship.position.length;
     if (!hasPosition) {
       ship.position = this.setPosition(ship.length);
     }

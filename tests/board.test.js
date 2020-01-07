@@ -1,43 +1,26 @@
-import Gameboard from '../src/factories/board';
-import Ship from '../src/factories/ship';
+import Board from '../src/factories/Board';
+import Ship from '../src/factories/Ship';
 
-const destroyer = new Ship(2);
-const cruiser = new Ship(3);
-const submarine = new Ship(3);
-const battleship = new Ship(4);
+const destroyer = new Ship();
 const carrier = new Ship(5);
-
-const positions = {
-  0: destroyer,
-  10: destroyer,
-  97: cruiser,
-  98: cruiser,
-  99: cruiser,
-  35: submarine,
-  45: submarine,
-  55: submarine,
-  54: carrier,
-  64: carrier,
-  74: carrier,
-  84: carrier,
-  94: carrier,
-  23: battleship,
-  24: battleship,
-  25: battleship,
-  26: battleship,
-};
+const positions = { 10: destroyer, 74: carrier };
+const board = new Board(100, positions);
 
 describe('receiveAttack', () => {
-  const gameboard = new Gameboard(positions);
   test('receive attack in correct position returns true', () => {
-    expect(gameboard.receiveAttack(10)).toBe(true);
+    expect(board.receiveAttack(10)).toBe(true);
   });
   test('receive attack in incorrect position returns false', () => {
-    expect(gameboard.receiveAttack(11)).toBe(false);
+    expect(board.receiveAttack(11)).toBe(false);
   });
-  test('expect reveive attack to hit ship in accurate position', () => {
-    const initialLength = carrier.getLength();
-    gameboard.receiveAttack(74);
-    expect(carrier.getLength()).toEqual(initialLength - 1);
+});
+
+describe('Getting a Random Point on Grid', () => {
+  describe('When there is a ship in the selected position', () => {
+    it('Selects another random index in the grid', () => {
+      const point = board.getRandomIndex(10);
+      const isDiff = point !== 10;
+      expect(isDiff).toBe(true);
+    });
   });
 });

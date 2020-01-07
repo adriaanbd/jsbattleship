@@ -1,13 +1,13 @@
-import Ship from '../src/factories/ship';
+import Ship from '../src/factories/Ship';
 
 
 describe('Behaviour', () => {
   describe('hit', () => {
-    test('substracts length by 1', () => {
+    test('substracts lives by 1', () => {
       const ship = new Ship(3);
-      const oldLength = ship.getLength();
+      const defaultLives = ship.lives;
       ship.hit();
-      expect(ship.getLength()).toEqual(oldLength - 1);
+      expect(ship.lives).toEqual(defaultLives - 1);
     });
   });
 

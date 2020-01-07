@@ -21,12 +21,12 @@ class Ship {
   }
 
   hit() {
-    this.length -= 1;
+    this.lives -= 1;
     return true;
   }
 
   isSunk() {
-    return this.lives < 1;
+    return this.lives === 0;
   }
 }
 
