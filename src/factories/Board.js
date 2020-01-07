@@ -32,7 +32,7 @@ class Board {
     for (let i = 0; i < options.length; i += 1) {
       const position = options[i];
       const isValid = position.every((point) => !this.positions[point]);
-      if (!isValid) continue
+      if (!isValid) continue;
       validOptions.push(position);
     }
     return validOptions;
@@ -44,8 +44,12 @@ class Board {
     while (true) {
       point = Math.floor(Math.random() * containerLength);
       position = this.positions[point];
-      if (!position) return point;
+      if (!position) {
+        position = point;
+        break;
+      }
     }
+    return point;
   }
 
   setPosition(shipLength, point = null) {
