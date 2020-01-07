@@ -1,6 +1,6 @@
 import Cells from '../components/Cells';
 import Ship from './Ship';
-import Options from '../helpers/Scout';
+import FirstMate from '../helpers/FirstMate';
 
 class Board {
   constructor(size = 100, positions = {}) {
@@ -38,7 +38,7 @@ class Board {
     return validOptions;
   }
 
-  getRandomIndex(containerLength) {
+  getPivotIndex(containerLength) {
     let point;
     let position;
     while (true) {
@@ -49,8 +49,8 @@ class Board {
   }
 
   setPosition(shipLength, point = null) {
-    if (!point) point = this.getRandomIndex(this.size);
-    const options = Options(shipLength, point);
+    if (!point) point = this.getPivotIndex(this.size);
+    const options = FirstMate(shipLength, point);
     const validOptions = this.getValidOptions(options);
     const optionIdx = Math.floor(Math.random() * validOptions.length);
     const validShipLocation = validOptions[optionIdx];

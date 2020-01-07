@@ -18,7 +18,7 @@ describe('receiveAttack', () => {
 describe('Getting a Random Point on Grid', () => {
   describe('When there is a ship in the selected position', () => {
     it('Selects another random index in the grid', () => {
-      const point = board.getRandomIndex(10);
+      const point = board.getPivotIndex(10);
       const isDiff = point !== 10;
       expect(isDiff).toBe(true);
     });
