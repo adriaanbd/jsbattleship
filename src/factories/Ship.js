@@ -1,16 +1,8 @@
 class Ship {
-  constructor(length = 2, position = null) {
+  constructor(length = 2, position = []) {
     this.length = length;
     this.position = position;
     this.lives = length;
-  }
-
-  get location() {
-    return this.position;
-  }
-
-  set location(arr) {
-    this.position = arr;
   }
 
   navigate(fromID, toID) {

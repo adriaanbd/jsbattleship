@@ -5,7 +5,6 @@ const Grid = (ships) => {
   let cellsArr;
   // let board;
   const positions = {};
-
   const makeGrid = (size, parent, classStr = 'battle-grid') => {
     // board = new Array(size);
     rootNode = Cells(size);
