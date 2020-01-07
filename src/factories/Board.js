@@ -34,25 +34,28 @@ class Board {
       if (!isValid) {continue}
       validOptions.push(position);
     }
-    console.log(validOptions);
     return validOptions;
   }
 
-  setPosition(ship) {
+  setPosition(shipLength) {
     let point = Math.floor(Math.random() * 100);
     while (this.positions[point]) {
       point = Math.floor(Math.random() * 100);
     }
-    const options = Options(ship.length, point);
+    const options = Options(shipLength, point);
     const validOptions = this.getValidOptions(options);
     const optionIdx = Math.floor(Math.random() * validOptions.length);
     const validShipLocation = validOptions[optionIdx];
-    ship.position = validShipLocation;
+    return validShipLocation;
   }
 
   addShip(ship) {
-    if (!ship.position) this.setPosition(ship);
-    ship.position.forEach((id) => {
+    const hasPosition = ship.position.length > 0;
+    if (!hasPosition) {
+      ship.position = this.setPosition(ship.length);
+    }
+    const shipPos = ship.position;
+    shipPos.forEach((id) => {
       const cell = this.cells[id];
       cell.classList.add('ship');
       cell.draggable = true;
