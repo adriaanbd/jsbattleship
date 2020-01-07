@@ -19,7 +19,7 @@ function Options(size, point) {
 
   function setCounters(point) {
     const y = Math.floor(point / 10);
-    const x = (point % 10);
+    const x = point % 10;
     const counters = [];
     // y range
     if (y >= 5) {
@@ -32,10 +32,10 @@ function Options(size, point) {
     // x range
     if (x >= 5) {
       counters.push(-1);
-      if (x - size >= 0) counters.push(1);
+      if (x + size <= 10) counters.push(1);
     } else {
       counters.push(1);
-      if (x + size <= 10) counters.push(-1);
+      if (x - (size - 1) <= 0) counters.push(-1);
     }
     return counters;
   }
