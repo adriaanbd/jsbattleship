@@ -1,5 +1,5 @@
 class Player {
-  constructor(name, type = 'human') {
+  constructor(name = '', type = 'human') {
     this.name = name;
     this.type = type;
   }
