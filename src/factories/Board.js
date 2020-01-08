@@ -3,11 +3,11 @@ import Ship from './Ship';
 
 class Board {
   constructor(size = 100, positions = {}) {
+    this.size = size;
     this.grid = Cells(size);
     this.cells = Array.from(this.grid.children);
     this.ships = [];
     this.positions = positions;
-    this.size = size;
   }
 
   receiveAttack(pos) {

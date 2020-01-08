@@ -8,7 +8,7 @@ class Ship {
     this.mate = new FirstMate(length);
   }
 
-  setSail(positions) { // want to name it setSail
+  setSail(positions) {
     const route = this.mate.routes(positions);
     this.position = route;
   }
