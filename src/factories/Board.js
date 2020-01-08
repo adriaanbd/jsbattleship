@@ -1,6 +1,6 @@
 import Cells from '../components/Cells';
 import Ship from './Ship';
-import Options from '../helpers/Scout';
+import FirstMate from '../helpers/FirstMate';
 
 class Board {
   constructor(size = 100, positions = {}) {
@@ -32,25 +32,31 @@ class Board {
     for (let i = 0; i < options.length; i += 1) {
       const position = options[i];
       const isValid = position.every((point) => !this.positions[point]);
-      if (!isValid) continue
+      if (!isValid) continue;
       validOptions.push(position);
     }
     return validOptions;
   }
 
-  getRandomIndex(containerLength) {
+  getPivotIndex(containerLength) {
     let point;
     let position;
     while (true) {
       point = Math.floor(Math.random() * containerLength);
       position = this.positions[point];
-      if (!position) return point;
+      if (!position) {
+        position = point;
+        break;
+      }
     }
+    return point;
   }
 
   setPosition(shipLength, point = null) {
-    if (!point) point = this.getRandomIndex(this.size);
-    const options = Options(shipLength, point);
+    if (!point) point = this.getPivotIndex(this.size);
+    const mate = new FirstMate(shipLength, point);
+    mate.setCounters();
+    const options = mate.getPositions();
     const validOptions = this.getValidOptions(options);
     const optionIdx = Math.floor(Math.random() * validOptions.length);
     const validShipLocation = validOptions[optionIdx];

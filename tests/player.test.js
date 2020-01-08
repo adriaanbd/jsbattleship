@@ -1,4 +1,4 @@
-import Player from '../src/factories/player';
+import Player from '../src/factories/Player';
 
 describe('Player attributes', () => {
   const player = new Player('maya');
