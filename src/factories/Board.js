@@ -54,7 +54,9 @@ class Board {
 
   setPosition(shipLength, point = null) {
     if (!point) point = this.getPivotIndex(this.size);
-    const options = FirstMate(shipLength, point);
+    const mate = new FirstMate(shipLength, point);
+    mate.setCounters();
+    const options = mate.getPositions();
     const validOptions = this.getValidOptions(options);
     const optionIdx = Math.floor(Math.random() * validOptions.length);
     const validShipLocation = validOptions[optionIdx];
