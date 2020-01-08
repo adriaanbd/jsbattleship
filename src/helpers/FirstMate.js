@@ -1,23 +1,7 @@
 class FirstMate {
-  constructor(size = 2, point = 0) {
+  constructor(size = 2, point = null) {
     this.size = size;
     this.point = point;
-    this.counters = [];
-    // this.positions = [];
-  }
-
-  getPositions() {
-    const positions = [];
-    this.counters.forEach((counter) => {
-      let sum = this.point;
-      const position = [this.point];
-      for (let i = 1; i < this.size; i += 1) {
-        sum += counter;
-        position.push(sum);
-      }
-      positions.push(position);
-    });
-    return positions;
   }
 
   setCounters() {
@@ -40,7 +24,58 @@ class FirstMate {
       counters.push(1);
       if (x - (this.size - 1) >= 0) counters.push(-1);
     }
-    this.counters = counters;
+    return counters;
+  }
+
+  getPositions(counters) {
+    const positions = [];
+    counters.forEach((counter) => {
+      let sum = this.point;
+      const position = [this.point];
+      for (let i = 1; i < this.size; i += 1) {
+        sum += counter;
+        position.push(sum);
+      }
+      positions.push(position);
+    });
+    return positions;
+  }
+
+  filterRoutes(routes, positions) {
+    const validOptions = [];
+    for (let i = 0; i < routes.length; i += 1) {
+      const position = routes[i];
+      const isValid = position.every((point) => !positions[point]);
+      if (!isValid) continue;
+      validOptions.push(position);
+    }
+    return validOptions;
+  }
+
+  setPivot(positions, gridSize = 100) {
+    let point;
+    while (true) {
+      point = Math.floor(Math.random() * gridSize);
+      if (!positions[point]) {
+        this.point = point;
+        break;
+      }
+    }
+  }
+
+  selectRoute(routes) {
+    const option = Math.floor(Math.random() * routes.length);
+    const choice = routes[option];
+    return choice;
+  }
+
+  routes(positions) {
+    if (!this.point) this.setPivot(positions);
+    const counters = this.setCounters();
+    const routes = this.getPositions(counters);
+    const validRoutes = this.filterRoutes(routes, positions);
+    const route = this.selectRoute(validRoutes);
+    return route;
   }
 }
 
