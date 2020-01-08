@@ -1,6 +1,5 @@
 import Cells from '../components/Cells';
 import Ship from './Ship';
-import FirstMate from '../helpers/FirstMate';
 
 class Board {
   constructor(size = 100, positions = {}) {
@@ -27,47 +26,9 @@ class Board {
     }
   }
 
-  getValidOptions(options) {
-    const validOptions = [];
-    for (let i = 0; i < options.length; i += 1) {
-      const position = options[i];
-      const isValid = position.every((point) => !this.positions[point]);
-      if (!isValid) continue;
-      validOptions.push(position);
-    }
-    return validOptions;
-  }
-
-  getPivotIndex(containerLength) {
-    let point;
-    let position;
-    while (true) {
-      point = Math.floor(Math.random() * containerLength);
-      position = this.positions[point];
-      if (!position) {
-        position = point;
-        break;
-      }
-    }
-    return point;
-  }
-
-  setPosition(shipLength, point = null) {
-    if (!point) point = this.getPivotIndex(this.size);
-    const mate = new FirstMate(shipLength, point);
-    mate.setCounters();
-    const options = mate.getPositions();
-    const validOptions = this.getValidOptions(options);
-    const optionIdx = Math.floor(Math.random() * validOptions.length);
-    const validShipLocation = validOptions[optionIdx];
-    return validShipLocation;
-  }
-
   addShip(ship) {
     const hasPosition = ship.position.length;
-    if (!hasPosition) {
-      ship.position = this.setPosition(ship.length);
-    }
+    if (!hasPosition) ship.setSail(this.positions);
     const shipPos = ship.position;
     shipPos.forEach((id) => {
       const cell = this.cells[id];
@@ -77,7 +38,7 @@ class Board {
     });
   }
 
-  placeShips() {
+  addShips() {
     if (this.ships.length === 0) this.createShips();
     this.ships.forEach((ship) => {
       this.addShip(ship);
@@ -99,7 +60,7 @@ class Board {
     root.appendChild(this.grid);
     this.grid.className = gridName;
     this.parent = root;
-    this.placeShips();
+    this.addShips();
   }
 }
 

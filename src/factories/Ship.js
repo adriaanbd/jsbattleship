@@ -1,8 +1,16 @@
+import FirstMate from '../helpers/FirstMate';
+
 class Ship {
   constructor(length = 2, position = []) {
     this.length = length;
     this.position = position;
     this.lives = length;
+    this.mate = new FirstMate(length);
+  }
+
+  setSail(positions) { // want to name it setSail
+    const route = this.mate.routes(positions);
+    this.position = route;
   }
 
   navigate(fromID, toID) {
