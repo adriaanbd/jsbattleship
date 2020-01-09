@@ -4,8 +4,9 @@ const Game = (size, parent) => {
   let turn = 0;
   let boards;
 
-  const turnHelper = () => {
+  const getTurn = () => {
     turn = turn === 0 ? 1 : 0;
+    return turn;
   };
 
   const dragStart = (event) => {
@@ -65,11 +66,31 @@ const Game = (size, parent) => {
     }
   };
 
+  const clickHandler = (event) => {
+    const { target } = event;
+    const isCell = target.classList.contains('cell');
+    if (!isCell) return;
+    const { id } = target;
+    const board = boards[getTurn()];
+    const ship = board.positions[id];
+    const cell = board.cells[id];
+    if (ship) {
+      cell.style.backgroundColor = 'red';
+      delete board.positions[id];
+      console.log('hit');
+    } else {
+      cell.style.backgroundColor = 'grey';
+      console.log('miss');
+    }
+    console.log('now it is the turn of: ', turn);
+  };
+
   const setListeners = (root, boards) => {
     root.addEventListener('dragstart', (event) => dragHandler(event, boards));
     root.addEventListener('dragenter', (event) => dragHandler(event, boards));
     root.addEventListener('dragover', (event) => dragHandler(event, boards));
     root.addEventListener('drop', (event) => dragHandler(event, boards));
+    root.addEventListener('click', (event) => clickHandler(event));
   };
 
   const play = () => {
