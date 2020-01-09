@@ -4,9 +4,12 @@ const Game = (size, parent) => {
   let turn = 0;
   let boards;
 
-  const getTurn = () => {
+  const enemyBoard = () => {
+    return turn === 0 ? 1 : 0;
+  };
+
+  const switchTurn = () => {
     turn = turn === 0 ? 1 : 0;
-    return turn;
   };
 
   const dragStart = (event) => {
@@ -52,6 +55,7 @@ const Game = (size, parent) => {
     if (dragType === 'drop') { return !isShip && isCell; }
     if (dragType === 'dragenter') { return isCell; }
     if (dragType === 'dragover') { return isCell; }
+    return false;
   };
 
   const dragHandler = (event) => {
@@ -71,17 +75,18 @@ const Game = (size, parent) => {
     const isCell = target.classList.contains('cell');
     if (!isCell) return;
     const { id } = target;
-    const board = boards[getTurn()];
+    const board = boards[enemyBoard()];
     const ship = board.positions[id];
     const cell = board.cells[id];
-    if (ship) {
+    if (board.shots[id]) return; // if its been played
+    if (ship) { // its a hit
       cell.style.backgroundColor = 'red';
       delete board.positions[id];
-      console.log('hit');
-    } else {
+    } else { // its a miss
       cell.style.backgroundColor = 'grey';
-      console.log('miss');
     }
+    board.shots[id] = true; // point played
+    switchTurn();
     console.log('now it is the turn of: ', turn);
   };
 
