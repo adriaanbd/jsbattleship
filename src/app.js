@@ -1,9 +1,9 @@
-import Board from './factories/Board';
+import Game from './game';
 
-const startApp = () => {
-  const content = document.querySelector('#content');
-  const board = new Board(100);
-  board.setUp(content, 'battle-grid');
-};
+const columns = 10;
+const rows = 10;
+const size = columns * rows;
 
-document.addEventListener('DOMContentLoaded', () => startApp());
+const game = Game(size, '#content');
+
+document.addEventListener('DOMContentLoaded', () => game.play());

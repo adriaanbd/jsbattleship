@@ -1,13 +1,14 @@
-import Cells from '../components/Cells';
 import Ship from './Ship';
+import Cell from '../components/Cell';
 
 class Board {
   constructor(size = 100, positions = {}) {
-    this.grid = Cells(size);
-    this.cells = Array.from(this.grid.children);
+    this.size = size;
+    this.grid = Cell.generateCells(size);
+    this.cells = Array.from(this.grid.childNodes);
     this.ships = [];
     this.positions = positions;
-    this.size = size;
+    this.shots = {};
   }
 
   receiveAttack(pos) {
@@ -26,27 +27,32 @@ class Board {
     }
   }
 
-  addShip(ship) {
+  addShip(ship, player = 'human') {
     const hasPosition = ship.position.length;
     if (!hasPosition) ship.setSail(this.positions);
     const shipPos = ship.position;
-    shipPos.forEach((id) => {
-      const cell = this.cells[id];
-      cell.classList.add('ship');
-      cell.draggable = true;
-      this.positions[id] = ship; // add to state
-    });
+    if (player === 'computer') {
+      shipPos.forEach((id) => {
+        this.positions[id] = ship;
+      });
+    } else {
+      shipPos.forEach((id) => {
+        const cell = this.cells[id];
+        cell.classList.add('ship');
+        cell.draggable = true;
+        this.positions[id] = ship; // add to state
+      });
+    }
   }
 
-  addShips() {
+  addShips(player) {
     if (this.ships.length === 0) this.createShips();
     this.ships.forEach((ship) => {
-      this.addShip(ship);
+      this.addShip(ship, player);
     });
   }
 
-  removeShip(ship) {
-    const { position } = ship;
+  removeShip(position) {
     position.forEach((id) => {
       const cell = this.cells[id];
       cell.removeAttribute('draggable');
@@ -56,11 +62,10 @@ class Board {
     });
   }
 
-  setUp(root, gridName) {
+  setUp(root, gridName, player) {
     root.appendChild(this.grid);
     this.grid.className = gridName;
-    this.parent = root;
-    this.addShips();
+    this.addShips(player);
   }
 }
 
