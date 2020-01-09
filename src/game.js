@@ -70,6 +70,11 @@ const Game = (size, parent) => {
     }
   };
 
+  const isOver = (board) => {
+    const { ships } = board;
+    return ships.every((s) => s.isSunk());
+  };
+
   const clickHandler = (event) => {
     const { target } = event;
     const isCell = target.classList.contains('cell');
@@ -83,10 +88,14 @@ const Game = (size, parent) => {
       if (ship) { // its a hit
         cell.style.backgroundColor = 'red';
         delete board.positions[id];
+        ship.hit();
       } else { // its a miss
         cell.style.backgroundColor = 'grey';
       }
       board.shots[id] = true; // point played
+      if (isOver(boards[enemyBoard()])) {
+        console.log('GAME OVER!');
+      }
       switchTurn();
       console.log('now it is the turn of: ', turn);
     }
@@ -99,6 +108,7 @@ const Game = (size, parent) => {
     root.addEventListener('drop', (event) => dragHandler(event, boards));
     root.addEventListener('click', (event) => clickHandler(event));
   };
+
 
   const play = () => {
     boards = [new Board(size), new Board(size)];
