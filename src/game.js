@@ -73,21 +73,23 @@ const Game = (size, parent) => {
   const clickHandler = (event) => {
     const { target } = event;
     const isCell = target.classList.contains('cell');
-    if (!isCell) return;
-    const { id } = target;
-    const board = boards[enemyBoard()];
-    const ship = board.positions[id];
-    const cell = board.cells[id];
-    if (board.shots[id]) return; // if its been played
-    if (ship) { // its a hit
-      cell.style.backgroundColor = 'red';
-      delete board.positions[id];
-    } else { // its a miss
-      cell.style.backgroundColor = 'grey';
+    const where = target.parentNode.classList.contains('left') ? 0 : 1;
+    if (isCell && where === enemyBoard()) {
+      const { id } = target;
+      const board = boards[enemyBoard()];
+      const ship = board.positions[id];
+      const cell = board.cells[id];
+      if (board.shots[id]) return; // if its been played
+      if (ship) { // its a hit
+        cell.style.backgroundColor = 'red';
+        delete board.positions[id];
+      } else { // its a miss
+        cell.style.backgroundColor = 'grey';
+      }
+      board.shots[id] = true; // point played
+      switchTurn();
+      console.log('now it is the turn of: ', turn);
     }
-    board.shots[id] = true; // point played
-    switchTurn();
-    console.log('now it is the turn of: ', turn);
   };
 
   const setListeners = (root, boards) => {
@@ -101,8 +103,8 @@ const Game = (size, parent) => {
   const play = () => {
     boards = [new Board(size), new Board(size)];
     const content = document.querySelector(parent);
-    boards[0].setUp(content, 'battle-grid', 'human');
-    boards[1].setUp(content, 'battle-grid', 'computer');
+    boards[0].setUp(content, 'battle-grid left', 'human');
+    boards[1].setUp(content, 'battle-grid right', 'computer');
 
     console.log(boards[0].positions, boards[1].positions);
     setListeners(content, boards);
