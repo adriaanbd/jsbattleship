@@ -4,12 +4,36 @@ const Game = (size, parent) => {
   let turn = 0;
   let boards;
 
+  const isOver = (board) => {
+    const { ships } = board;
+    return ships.every((s) => s.isSunk());
+  };
+
   const enemyBoard = () => {
     return turn === 0 ? 1 : 0;
   };
 
   const switchTurn = () => {
     turn = turn === 0 ? 1 : 0;
+    if (turn === 1) {
+      let point = Math.floor(Math.random() * size);
+      const board = boards[enemyBoard()];
+      while (true) {
+        if (!board.shots[point]) break;
+        point = Math.floor(Math.random() * size);
+      }
+      const ship = board.positions[point];
+      const node = board.cells[point];
+      if (ship) {
+        ship.hit();
+        node.style.backgroundColor = 'red';
+      } else {
+        node.style.backgroundColor = 'grey';
+      }
+      board.shots[point] = true;
+      if (isOver(board)) alert('GAME OVER!');
+      switchTurn();
+    }
   };
 
   const dragStart = (event) => {
@@ -70,10 +94,6 @@ const Game = (size, parent) => {
     }
   };
 
-  const isOver = (board) => {
-    const { ships } = board;
-    return ships.every((s) => s.isSunk());
-  };
 
   const clickHandler = (event) => {
     const { target } = event;
@@ -94,7 +114,7 @@ const Game = (size, parent) => {
       }
       board.shots[id] = true; // point played
       if (isOver(boards[enemyBoard()])) {
-        console.log('GAME OVER!');
+        alert('GAME OVER!');
       }
       switchTurn();
       console.log('now it is the turn of: ', turn);
