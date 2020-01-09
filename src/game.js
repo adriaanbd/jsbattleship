@@ -60,7 +60,7 @@ const Game = (size, parent) => {
       board.removeShip(position);
       board.addShip(ship);
     } else {
-      ship.position = position;
+      ship.position = position; // former position
     }
   };
 
@@ -136,7 +136,6 @@ const Game = (size, parent) => {
     boards[0].setUp(content, 'battle-grid left', 'human');
     boards[1].setUp(content, 'battle-grid right', 'computer');
 
-    console.log(boards[0].positions, boards[1].positions);
     setListeners(content, boards);
   };
 
