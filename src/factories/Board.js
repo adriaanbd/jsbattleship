@@ -8,6 +8,7 @@ class Board {
     this.cells = Array.from(this.grid.childNodes);
     this.ships = [];
     this.positions = positions;
+    this.shots = {};
   }
 
   receiveAttack(pos) {
