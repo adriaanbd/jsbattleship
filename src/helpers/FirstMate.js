@@ -27,7 +27,10 @@ class FirstMate {
     return counters;
   }
 
-  getPositions(counters) {
+  getPositions(counters = []) {
+    if (!counters) {
+      this.counters = this.setCounters();
+    }
     const positions = [];
     counters.forEach((counter) => {
       let sum = this.point;
