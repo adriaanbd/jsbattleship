@@ -19,6 +19,11 @@ const Game = (size, parent) => {
   const getBoard = (id) => boards[id];
 
   const switchTurn = () => {
+    if (!isGameOn) {
+      const winner = turn === 0 ? 'won' : 'lost';
+      alert(`GAME OVER, you ${winner}!`);
+      return;
+    }
     turn = turn === 0 ? 1 : 0;
     if (turn === 1) {
       let point = Math.floor(Math.random() * size);
@@ -38,11 +43,9 @@ const Game = (size, parent) => {
       board.getShots()[point] = true;
       if (isOver(board)) {
         isGameOn = false;
-        alert('GAME OVER');
       }
       switchTurn();
     }
-    isGameOn = true;
   };
 
   const dragStart = (event) => {
@@ -57,7 +60,7 @@ const Game = (size, parent) => {
       return;
     }
     const position = ship.getPosition();
-    ship.navigate(prevID, target.id); // change ship.getPosition()
+    ship.navigate(prevID, target.id);
     const isWithinValidRange = ship.getPosition().every((id) => {
       const inGrid = id < 100 && id >= 0;
       const isShip = board.getPositions()[id];
@@ -69,7 +72,7 @@ const Game = (size, parent) => {
       board.removeShip(position);
       board.addShip(ship);
     } else {
-      ship.setPosition(position); // former position
+      ship.setPosition(position);
     }
   };
 
@@ -110,11 +113,12 @@ const Game = (size, parent) => {
     const isCell = target.classList.contains('cell');
     const where = target.parentNode.classList.contains('left') ? 0 : 1;
     if (isCell && where === enemyBoard()) {
+      isGameOn = true;
       const { id } = target;
       const board = getBoard(enemyBoard());
       const ship = board.getPositions()[id];
       const cell = board.getCells()[id];
-      if (board.getShots()[id]) return; // if its been played
+      if (board.getShots()[id]) return;
       if (ship) { // its a hit
         cell.style.backgroundColor = 'red';
         delete board.getPositions()[id];
@@ -125,7 +129,6 @@ const Game = (size, parent) => {
       board.getShots()[id] = true; // point played
       if (isOver(boards[enemyBoard()])) {
         isGameOn = false;
-        alert('GAME OVER!');
       }
       switchTurn();
     }
@@ -138,7 +141,6 @@ const Game = (size, parent) => {
     root.addEventListener('drop', (event) => dragHandler(event, boards));
     root.addEventListener('click', (event) => clickHandler(event));
   };
-
 
   const play = () => {
     boards = [Board(size), Board(size)];
