@@ -19,18 +19,18 @@ const Game = (size, parent) => {
       let point = Math.floor(Math.random() * size);
       const board = boards[enemyBoard()];
       while (true) {
-        if (!board.shots[point]) break;
+        if (!board.getShots()[point]) break;
         point = Math.floor(Math.random() * size);
       }
-      const ship = board.positions[point];
-      const node = board.cells[point];
+      const ship = board.getPositions()[point];
+      const node = board.getCells()[point];
       if (ship) {
         ship.hit();
         node.style.backgroundColor = 'red';
       } else {
         node.style.backgroundColor = 'grey';
       }
-      board.shots[point] = true;
+      board.getShots()[point] = true;
       if (isOver(board)) alert('GAME OVER!');
       switchTurn();
     }
@@ -43,7 +43,7 @@ const Game = (size, parent) => {
   const dragDrop = (event, board) => {
     const { dataTransfer, target } = event;
     const prevID = dataTransfer.getData('text');
-    const ship = board.positions[prevID];
+    const ship = board.getPositions()[prevID];
     if (!ship) {
       return;
     }
@@ -51,8 +51,8 @@ const Game = (size, parent) => {
     ship.navigate(prevID, target.id); // change ship.position
     const isWithinValidRange = ship.position.every((id) => {
       const inGrid = id < 100 && id >= 0;
-      const isShip = board.positions[id];
-      const myShip = board.positions[id] === ship;
+      const isShip = board.getPositions()[id];
+      const myShip = board.getPositions()[id] === ship;
       if (inGrid && isShip) { return myShip; }
       return inGrid && !isShip;
     });
@@ -102,17 +102,17 @@ const Game = (size, parent) => {
     if (isCell && where === enemyBoard()) {
       const { id } = target;
       const board = boards[enemyBoard()];
-      const ship = board.positions[id];
-      const cell = board.cells[id];
-      if (board.shots[id]) return; // if its been played
+      const ship = board.getPositions()[id];
+      const cell = board.getCells()[id];
+      if (board.getShots()[id]) return; // if its been played
       if (ship) { // its a hit
         cell.style.backgroundColor = 'red';
-        delete board.positions[id];
+        delete board.getPositions()[id];
         ship.hit();
       } else { // its a miss
         cell.style.backgroundColor = 'grey';
       }
-      board.shots[id] = true; // point played
+      board.getShots()[id] = true; // point played
       if (isOver(boards[enemyBoard()])) {
         alert('GAME OVER!');
       }

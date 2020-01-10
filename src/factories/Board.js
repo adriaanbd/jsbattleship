@@ -7,9 +7,11 @@ const Board = (size = 100, positions = {}) => {
   const ships = [];
   const shots = {};
 
-  const getPositions = () => {
-    return positions;
-  };
+  const getPositions = () => positions;
+
+  const getCells = () => cells;
+
+  const getShots = () => shots;
 
   const receiveAttack = (pos) => {
     const ship = getPositions()[pos];
@@ -71,6 +73,11 @@ const Board = (size = 100, positions = {}) => {
   return {
     setUp,
     receiveAttack,
+    getPositions,
+    getCells,
+    getShots,
+    createShips,
+    removeShip,
   };
 };
 
