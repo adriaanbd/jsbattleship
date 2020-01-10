@@ -16,9 +16,7 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"no-shadow": "off",
-		"no-param-reassign": "off",
-		"eol-last": "off",
-		"import/no-unresolved": "off"
+		"no-constant-condition": "off",
+		"no-alert": "off"
 	}
 }
