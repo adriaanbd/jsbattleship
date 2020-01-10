@@ -1,4 +1,14 @@
 const FirstMate = (size = 2, point = null) => {
+  const getPoint = () => point;
+
+  const setPoint = (newPoint) => {
+    point = newPoint;
+  };
+
+  const setSize = (newSize) => {
+    size = newSize;
+  };
+
   const setCounters = () => {
     const y = Math.floor(point / 10);
     const x = point % 10;
@@ -77,6 +87,12 @@ const FirstMate = (size = 2, point = null) => {
 
   return {
     routes,
+    setCounters,
+    getPositions,
+    setPoint,
+    getPoint,
+    setPivot,
+    setSize,
   };
 };
 

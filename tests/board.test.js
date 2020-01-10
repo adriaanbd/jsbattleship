@@ -1,10 +1,10 @@
 import Board from '../src/factories/Board';
 import Ship from '../src/factories/Ship';
 
-const destroyer = new Ship();
-const carrier = new Ship(5);
+const destroyer = Ship();
+const carrier = Ship(5);
 const positions = { 10: destroyer, 74: carrier };
-const board = new Board(100, positions);
+const board = Board(100, positions);
 
 describe('receiveAttack', () => {
   test('receive attack in correct position returns true', () => {

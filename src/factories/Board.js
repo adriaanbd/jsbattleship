@@ -12,7 +12,7 @@ const Board = (size = 100, positions = {}) => {
   };
 
   const receiveAttack = (pos) => {
-    const ship = positions[pos];
+    const ship = getPositions()[pos];
     if (ship) {
       ship.hit();
       return true;
@@ -70,6 +70,7 @@ const Board = (size = 100, positions = {}) => {
 
   return {
     setUp,
+    receiveAttack,
   };
 };
 

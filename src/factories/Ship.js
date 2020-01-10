@@ -4,6 +4,8 @@ const Ship = (length = 2, position = []) => {
   let lives = length;
   const mate = new FirstMate(length);
 
+  const getLives = () => lives;
+
   const setSail = (positions) => {
     const route = mate.routes(positions);
     position = route;
@@ -31,6 +33,15 @@ const Ship = (length = 2, position = []) => {
 
   const isSunk = () => {
     return lives === 0;
+  };
+
+  return {
+    isSunk,
+    hit,
+    navigate,
+    setSail,
+    isValidPos,
+    getLives,
   };
 };
 
