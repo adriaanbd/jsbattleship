@@ -61,9 +61,10 @@ const FirstMate = (size = 2, point = null) => {
   };
 
   const setPivot = (positions, gridSize = 100) => {
+    let p;
     while (true) {
-      const p = Math.floor(Math.random() * gridSize);
-      if (!positions[getPoint()]) {
+      p = Math.floor(Math.random() * gridSize);
+      if (!positions[p]) {
         setPoint(p);
         break;
       }
