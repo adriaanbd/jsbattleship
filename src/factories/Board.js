@@ -11,7 +11,7 @@ const Board = (size = 100, positions = {}) => {
 
   const getPositions = () => positions;
   const setPosition = (id, ship) => {
-    positions[id] = ship;
+    getPositions()[id] = ship;
   };
   const getCells = () => cells;
 
@@ -37,7 +37,7 @@ const Board = (size = 100, positions = {}) => {
     }
   };
 
-  const addShip =  (ship, player = 'human') => {
+  const addShip = (ship, player = 'human') => {
     if (!ship.hasPosition()) {
       const boardPositions = getPositions();
       ship.setSail(boardPositions);
@@ -74,8 +74,8 @@ const Board = (size = 100, positions = {}) => {
   };
 
   const setUp = (root, gridName, player) => {
-    const grid = getGrid();
-    root.appendChild(grid);
+    const boardGrid = getGrid();
+    root.appendChild(boardGrid);
     grid.className = gridName;
     addShips(player);
   };
