@@ -1,41 +1,46 @@
 import FirstMate from '../helpers/FirstMate';
 
-class Ship {
-  constructor(length = 2, position = []) {
-    this.length = length;
-    this.position = position;
-    this.lives = length;
-    this.mate = new FirstMate(length);
-  }
+const Ship = (length = 2, position = []) => {
+  let lives = length;
+  const mate = new FirstMate(length);
 
-  setSail(positions) {
-    const route = this.mate.routes(positions);
-    this.position = route;
-  }
+  const getLives = () => lives;
 
-  navigate(fromID, toID) {
+  const setSail = (positions) => {
+    const route = mate.routes(positions);
+    position = route;
+  };
+
+  const navigate = (fromID, toID) => {
     const diff = Math.abs(fromID - toID);
-    const prevPosition = this.position;
+    const prevPosition = position;
     if (fromID > toID) {
-      this.position = prevPosition.map((pos) => pos - diff);
+      position = prevPosition.map((pos) => pos - diff);
     } else {
-      this.position = prevPosition.map((pos) => pos + diff);
+      position = prevPosition.map((pos) => pos + diff);
     }
-  }
+  };
 
-  isValidPos(pos) {
+  const isValidPos = (pos) => {
     const valid = pos < 100 && pos > 0;
     return valid;
-  }
+  };
 
-  hit() {
-    this.lives -= 1;
+  const hit = () => {
+    lives -= 1;
     return true;
-  }
+  };
 
-  isSunk() {
-    return this.lives === 0;
-  }
-}
+  const isSunk = () => lives === 0;
+
+  return {
+    isSunk,
+    hit,
+    navigate,
+    setSail,
+    isValidPos,
+    getLives,
+  };
+};
 
 export default Ship;
