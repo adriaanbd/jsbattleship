@@ -36,26 +36,21 @@ const Board = (size = 100, positions = {}) => {
       ships.push(ship);
     }
   };
-  
-  const addShip = (ship, player = 'human') => {
+
+  const addShip =  (ship, player = 'human') => {
     if (!ship.hasPosition()) {
       const boardPositions = getPositions();
       ship.setSail(boardPositions);
-      console.log(boardPositions);
     }
     const shipPos = ship.getPosition();
-    if (player === 'computer') {
-      shipPos.forEach((id) => {
-        setPosition(id, ship);
-      });
-    } else {
-      shipPos.forEach((id) => {
+    shipPos.forEach((id) => {
+      if (player === 'human') {
         const cell = getCells()[id];
         cell.classList.add('ship');
         cell.draggable = true;
-        setPosition(id, ship);
-      });
-    }
+      }
+      setPosition(id, ship);
+    });
   };
 
   const addShips = (player) => {
