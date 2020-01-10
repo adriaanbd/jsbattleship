@@ -7,11 +7,19 @@ const Board = (size = 100, positions = {}) => {
   const ships = [];
   const shots = {};
 
-  const getPositions = () => positions;
+  const getGrid = () => grid;
 
+  const getPositions = () => positions;
+  const setPosition = (id, ship) => {
+    positions[id] = ship;
+  };
   const getCells = () => cells;
 
+  const getShips = () => ships;
+
   const getShots = () => shots;
+
+  const noShips = () => getShips().length === 0;
 
   const receiveAttack = (pos) => {
     const ship = getPositions()[pos];
@@ -24,47 +32,49 @@ const Board = (size = 100, positions = {}) => {
 
   const createShips = (sizes = [5, 4, 3, 3, 2]) => {
     for (let i = 0; i < sizes.length; i += 1) {
-      const ship = new Ship(sizes[i]);
+      const ship = Ship(sizes[i]);
       ships.push(ship);
     }
   };
 
-  const addShip = (ship, player = 'human') => {
-    const hasPosition = ship.position.length;
-    if (!hasPosition) ship.setSail(positions);
-    const shipPos = ship.position;
-    if (player === 'computer') {
-      shipPos.forEach((id) => {
-        positions[id] = ship;
-      });
-    } else {
-      shipPos.forEach((id) => {
-        const cell = cells[id];
+  const addShip =  (ship, player = 'human') => {
+    if (!ship.hasPosition()) {
+      const boardPositions = getPositions();
+      ship.setSail(boardPositions);
+    }
+    const shipPos = ship.getPosition();
+    shipPos.forEach((id) => {
+      if (player === 'human') {
+        const cell = getCells()[id];
         cell.classList.add('ship');
         cell.draggable = true;
-        positions[id] = ship;
-      });
-    }
+      }
+      setPosition(id, ship);
+    });
   };
 
   const addShips = (player) => {
-    if (ships.length === 0) this.createShips();
-    ships.forEach((ship) => {
+    if (noShips()) {
+      createShips();
+    }
+    const boardShips = getShips();
+    boardShips.forEach((ship) => {
       addShip(ship, player);
     });
   };
 
   const removeShip = (position) => {
     position.forEach((id) => {
-      const cell = cells[id];
+      const cell = getCells()[id];
       cell.removeAttribute('draggable');
       cell.removeAttribute('style');
       cell.classList.remove('ship');
-      delete positions[id]; // remove from state
+      delete getPositions()[id]; // remove from state
     });
   };
 
   const setUp = (root, gridName, player) => {
+    const grid = getGrid();
     root.appendChild(grid);
     grid.className = gridName;
     addShips(player);
@@ -76,6 +86,8 @@ const Board = (size = 100, positions = {}) => {
     getPositions,
     getCells,
     getShots,
+    getShips,
+    addShip,
     createShips,
     removeShip,
   };

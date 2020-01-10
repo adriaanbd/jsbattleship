@@ -2,22 +2,28 @@ import FirstMate from '../helpers/FirstMate';
 
 const Ship = (length = 2, position = []) => {
   let lives = length;
-  const mate = new FirstMate(length);
+  const mate = FirstMate(length);
 
+  const getLength = () => length;
+  const getPosition = () => position;
+  const setPosition = (pos) => {
+    position = pos;
+  };
   const getLives = () => lives;
+  const hasPosition = () => position.length > 0;
 
   const setSail = (positions) => {
     const route = mate.routes(positions);
-    position = route;
+    setPosition(route);
   };
 
   const navigate = (fromID, toID) => {
     const diff = Math.abs(fromID - toID);
-    const prevPosition = position;
+    const prevPosition = getPosition();
     if (fromID > toID) {
-      position = prevPosition.map((pos) => pos - diff);
+      setPosition(prevPosition.map((pos) => pos - diff));
     } else {
-      position = prevPosition.map((pos) => pos + diff);
+      setPosition(prevPosition.map((pos) => pos + diff));
     }
   };
 
@@ -40,6 +46,10 @@ const Ship = (length = 2, position = []) => {
     setSail,
     isValidPos,
     getLives,
+    getPosition,
+    setPosition,
+    getLength,
+    hasPosition,
   };
 };
 
