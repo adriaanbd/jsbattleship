@@ -31,9 +31,7 @@ const Ship = (length = 2, position = []) => {
     return true;
   };
 
-  const isSunk = () => {
-    return lives === 0;
-  };
+  const isSunk = () => lives === 0;
 
   return {
     isSunk,
