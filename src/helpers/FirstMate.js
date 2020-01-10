@@ -63,8 +63,8 @@ const FirstMate = (size = 2, point = null) => {
   const setPivot = (positions, gridSize = 100) => {
     while (true) {
       const p = Math.floor(Math.random() * gridSize);
-      if (!positions[point]) {
-        point = p;
+      if (!positions[getPoint()]) {
+        setPoint(p);
         break;
       }
     }
@@ -77,7 +77,7 @@ const FirstMate = (size = 2, point = null) => {
   };
 
   const routes = (positions) => {
-    if (!point) setPivot(positions);
+    if (!getPoint()) setPivot(positions);
     const counters = setCounters();
     const routes = getPositions(counters);
     const validRoutes = filterRoutes(routes, positions);

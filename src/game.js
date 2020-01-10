@@ -3,9 +3,12 @@ import Board from './factories/Board';
 const Game = (size, parent) => {
   let turn = 0;
   let boards;
+  let isGameOn = false;
+
+  const isGame = () => isGameOn;
 
   const isOver = (board) => {
-    const { ships } = board;
+    const ships = board.getShips();
     return ships.every((s) => s.isSunk());
   };
 
@@ -13,11 +16,13 @@ const Game = (size, parent) => {
     return turn === 0 ? 1 : 0;
   };
 
+  const getBoard = (id) => boards[id];
+
   const switchTurn = () => {
     turn = turn === 0 ? 1 : 0;
     if (turn === 1) {
       let point = Math.floor(Math.random() * size);
-      const board = boards[enemyBoard()];
+      const board = getBoard(enemyBoard());
       while (true) {
         if (!board.getShots()[point]) break;
         point = Math.floor(Math.random() * size);
@@ -31,9 +36,13 @@ const Game = (size, parent) => {
         node.style.backgroundColor = 'grey';
       }
       board.getShots()[point] = true;
-      if (isOver(board)) alert('GAME OVER!');
+      if (isOver(board)) {
+        isGameOn = false;
+        alert('GAME OVER');
+      }
       switchTurn();
     }
+    isGameOn = true;
   };
 
   const dragStart = (event) => {
@@ -47,9 +56,9 @@ const Game = (size, parent) => {
     if (!ship) {
       return;
     }
-    const { position } = ship;
-    ship.navigate(prevID, target.id); // change ship.position
-    const isWithinValidRange = ship.position.every((id) => {
+    const position = ship.getPosition();
+    ship.navigate(prevID, target.id); // change ship.getPosition()
+    const isWithinValidRange = ship.getPosition().every((id) => {
       const inGrid = id < 100 && id >= 0;
       const isShip = board.getPositions()[id];
       const myShip = board.getPositions()[id] === ship;
@@ -60,7 +69,7 @@ const Game = (size, parent) => {
       board.removeShip(position);
       board.addShip(ship);
     } else {
-      ship.position = position; // former position
+      ship.setPosition(position); // former position
     }
   };
 
@@ -83,11 +92,12 @@ const Game = (size, parent) => {
   };
 
   const dragHandler = (event) => {
+    if (isGame()) return;
     const { type, target } = event;
     if (isValidDrag(type, target)) {
       if (type === 'dragstart') dragStart(event);
       else if (type === 'drop') {
-        const board = boards[turn];
+        const board = getBoard(turn);
         dragDrop(event, board);
       } else if (type === 'dragenter') dragEnter(event);
       else if (type === 'dragover') dragOver(event);
@@ -101,7 +111,7 @@ const Game = (size, parent) => {
     const where = target.parentNode.classList.contains('left') ? 0 : 1;
     if (isCell && where === enemyBoard()) {
       const { id } = target;
-      const board = boards[enemyBoard()];
+      const board = getBoard(enemyBoard());
       const ship = board.getPositions()[id];
       const cell = board.getCells()[id];
       if (board.getShots()[id]) return; // if its been played
@@ -114,10 +124,10 @@ const Game = (size, parent) => {
       }
       board.getShots()[id] = true; // point played
       if (isOver(boards[enemyBoard()])) {
+        isGameOn = false;
         alert('GAME OVER!');
       }
       switchTurn();
-      console.log('now it is the turn of: ', turn);
     }
   };
 
@@ -131,7 +141,7 @@ const Game = (size, parent) => {
 
 
   const play = () => {
-    boards = [new Board(size), new Board(size)];
+    boards = [Board(size), Board(size)];
     const content = document.querySelector(parent);
     boards[0].setUp(content, 'battle-grid left', 'human');
     boards[1].setUp(content, 'battle-grid right', 'computer');
