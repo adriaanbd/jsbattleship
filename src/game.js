@@ -13,10 +13,13 @@ const Game = (size, parent) => {
   };
 
   const enemyBoard = () => {
-    return turn === 0 ? 1 : 0;
+    if (turn === 0) return 1;
+    return 0;
   };
 
   const getBoard = (id) => boards[id];
+
+  const getBoards = () => boards;
 
   const switchTurn = () => {
     if (!isGameOn) {
@@ -134,11 +137,12 @@ const Game = (size, parent) => {
     }
   };
 
-  const setListeners = (root, boards) => {
-    root.addEventListener('dragstart', (event) => dragHandler(event, boards));
-    root.addEventListener('dragenter', (event) => dragHandler(event, boards));
-    root.addEventListener('dragover', (event) => dragHandler(event, boards));
-    root.addEventListener('drop', (event) => dragHandler(event, boards));
+  const setListeners = (root) => {
+    const gameBoards = getBoards();
+    root.addEventListener('dragstart', (event) => dragHandler(event, gameBoards));
+    root.addEventListener('dragenter', (event) => dragHandler(event, gameBoards));
+    root.addEventListener('dragover', (event) => dragHandler(event, gameBoards));
+    root.addEventListener('drop', (event) => dragHandler(event, gameBoards));
     root.addEventListener('click', (event) => clickHandler(event));
   };
 
@@ -148,7 +152,7 @@ const Game = (size, parent) => {
     boards[0].setUp(content, 'battle-grid left', 'human');
     boards[1].setUp(content, 'battle-grid right', 'computer');
 
-    setListeners(content, boards);
+    setListeners(content);
   };
 
   return {
