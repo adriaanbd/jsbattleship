@@ -14,12 +14,12 @@ describe('Getting a position', () => {
   describe('When the pivot is a corner', () => {
     describe('if corner is 0', () => {
       it('counters are 1 and 10', () => {
-        mate.setPoint(0)
+        mate.setPoint(0);
         const counters = mate.setCounters();
         expect(counters).toEqual([10, 1]);
       });
       it('positions are [0 10] and [0 1]', () => {
-        mate.setPoint(0)
+        mate.setPoint(0);
         const counters = mate.setCounters();
         const positions = mate.getPositions(counters);
         expect(positions).toEqual([[0, 10], [0, 1]]);
@@ -67,7 +67,7 @@ describe('Getting a position', () => {
   describe('When the pivot is an edge', () => {
     describe('Given it is at the top', () => {
       it('it does not have -10 as a counter', () => {
-        mate.setPoint(5)
+        mate.setPoint(5);
         const counters = mate.setCounters();
         expect(counters.includes(-10)).toBe(false);
       });

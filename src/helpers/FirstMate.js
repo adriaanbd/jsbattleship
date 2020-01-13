@@ -53,7 +53,7 @@ const FirstMate = (size = 2, point = null) => {
     const validOptions = [];
     for (let i = 0; i < routes.length; i += 1) {
       const position = routes[i];
-      const isValid = position.every((point) => !positions[point]);
+      const isValid = position.every((shipPoint) => !positions[shipPoint]);
       if (!isValid) continue;
       validOptions.push(position);
     }
@@ -80,8 +80,8 @@ const FirstMate = (size = 2, point = null) => {
   const routes = (positions) => {
     if (!getPoint()) setPivot(positions);
     const counters = setCounters();
-    const routes = getPositions(counters);
-    const validRoutes = filterRoutes(routes, positions);
+    const generatedRoutes = getPositions(counters);
+    const validRoutes = filterRoutes(generatedRoutes, positions);
     const route = selectRoute(validRoutes);
     return route;
   };
