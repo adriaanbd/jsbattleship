@@ -17,6 +17,9 @@
 	},
 	"rules": {
 		"no-constant-condition": "off",
-		"no-alert": "off"
+		"no-alert": "off",
+		"no-param-reassign": "off",
+		"arrow-parens": "off",
+		"no-continue": "off"
 	}
 }

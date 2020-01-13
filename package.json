@@ -1,0 +1,38 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "Battleship implementation using JS and Jest",
+  "private": true,
+  "dependencies": {
+    "remove": "^0.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "scripts": {
+    "test": "jest --verbose ./tests",
+    "build": "webpack -p",
+    "dev": "webpack --mode development",
+    "watch": "webpack --progress --watch --mode development",
+    "start": "webpack-dev-server --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adriaanbd/jsbattleship.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adriaanbd/jsbattleship/issues"
+  },
+  "homepage": "https://github.com/adriaanbd/jsbattleship#readme"
+}
