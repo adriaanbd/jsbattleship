@@ -24,7 +24,7 @@ const Game = (size, parent) => {
   const switchTurn = () => {
     if (!isGameOn) {
       const winner = turn === 0 ? 'won' : 'lost';
-      alert(`GAME OVER, you ${winner}!`);
+      alert(`GAME OVER, you ${winner}! Please refresh/reload the page to play again.`);
       return;
     }
     turn = turn === 0 ? 1 : 0;
