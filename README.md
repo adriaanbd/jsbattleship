@@ -39,6 +39,7 @@ $ npm install
 ```bash
 $ npm run start
 ```
+
 Open up your browser and go to `http://127.0.0.1:8080/dist/`
 
 #### Gameflow
@@ -70,6 +71,14 @@ Snapshots:   0 total
 Time:        2.369s
 Ran all test suites matching /.\/tests/i.
 ```
+
+## Author
+
+### Adriaan Beiertz
+
+- [GitHub](https://gihub.com/adriaanbd)
+- [Twitter](https://twitter.com/abeiertz)
+- [LinkedIn](https://linkedin.com/adriaanbd)
 
 ## Contributing
 
