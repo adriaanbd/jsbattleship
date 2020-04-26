@@ -1,58 +1,78 @@
 # Battleship
-Battleship, the game, on JavaScript
+> The renowned Battleship board game for a single player vs computer.
 
-## Overview
+![Picture of the board](/screenshots/battleship.png?raw=true)
 
-* Game - in charge of keeping track of game, switching turns and listening for drag or click events.
-* Board - in charge of managing the board, adding ships, removing ships, and setting the board on the screen.
-* Ship - in charge of ship operations like reporting a hit / sink and changing positions.
-* FirstMate - helper to set ship in a random position in the grid
-* Cell - generates a node or several node elements to append to the page.
+The ships are randomly placed upon page load or reload and the game begins as soon as you click on the opponent's board. You can move your ships by dragging them to a different position before the game starts. A hit is colored red and a miss is colored grey.
 
-## How to Play
+## Built With
 
-You can play locally by cloning the project and running a development server.
+- JavaScript
+- Webpack
+- Jest
+
+## Live Demo
+
+The app is deployed on Vercel (formely Zeit), and can be accessed through the following link, [here](https://jsbattleship.now.sh/).
+
+## Getting Started
+
+### Prerequisites
+
+- NodeJS
 
 ### Setup
 
-1. Clone the project
 ```bash
   git clone https://github.com/adriaanbd/jsbattlehsip.git
   cd jsbattleship
 ```
 
-2. Install packages: `$ npm install`;
+### Install
 
-3. Start the live-server: `$ npm run start`;
+```bash
+$ npm install
+```
 
-4. Open up your browser and go to `http://127.0.0.1:8080/dist/`
+### Usage
 
-### Gameflow
+```bash
+$ npm run start
+```
+Open up your browser and go to `http://127.0.0.1:8080/dist/`
 
-Game starts as soon as you fire on the enemy grid and the game ends as soon as all ships of one player have been sunk, you can drag your ships to change location before the first shot of the game, and you can restart the game and/or change ship placements by refreshing the page.
+#### Gameflow
+
+- Game starts as soon as you fire on the enemy grid
+- Game ends as soon as all ships of one player have been sunk
+- Drag your ships to change location before the first shot of the game
+- Restart the game and/or change ship placements by refreshing the page.
 
 #### Ship Placements
-1. The ships are randomly placed on page reload.
-2. If you reload the page you'll get a new ship placement setup.
-3. You can also drag and drop your ships into new locations, as long as its in your own board and the position isn't occupied by another ship.
+
+- The ships are randomly placed on page reload.
+- If you reload the page you'll get a new ship placement setup.
+- You can also drag and drop your ships into new locations, as long as its in your own board and the position isn't occupied by another ship.
 
 #### Shooting
-1. You can shoot by clicking on the enemy grid.
-2. Hits are colored red.
-3. Misses are colored grey.
 
-## How to contribute
+- You can shoot by clicking on the enemy grid.
+- Hits are colored red.
+- Misses are colored grey.
 
-1. Clone the project
+### Run tests
+
 ```bash
-  git clone https://github.com/adriaanbd/jsbattlehsip.git
-  cd jsbattleship
+$ npm run test
+Test Suites: 3 passed, 3 total
+Tests:       28 passed, 28 total
+Snapshots:   0 total
+Time:        2.369s
+Ran all test suites matching /.\/tests/i.
 ```
 
-2. Install packages: `$ npm install`;
+## Contributing
 
-3. Start the live-server: `$ npm run start`;
+Contributions, issues and feature requests are welcome!
 
-4. Watch for changes: `$ run watch`;
-
-5. Make changes to the code.
+Feel free to check the issues page, [here](https://github.com/adriaanbd/jsbattleship/issues).
